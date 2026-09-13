@@ -33,7 +33,7 @@ const HOME_MENU: MenuGroup[] = [
     items: [
       { label: "Overview", href: "#top" },
       { label: "About Us", href: "#about" },
-      { label: "Our Process", href: "#process" },
+      { label: "Our Workflow", href: "#process" },
       { label: "Gallery", href: "#gallery" },
     ],
   },
@@ -143,9 +143,9 @@ function NavLinkList({
               <Link
                 href={link.href}
                 onClick={onNavigate}
-                className="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/70 transition-colors duration-150 hover:bg-brand/20 hover:text-ink"
+                className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors duration-150 hover:bg-brand/15 hover:text-white"
               >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-ink/5 text-ink/50 transition-colors duration-150 group-hover:bg-brand group-hover:text-brand-foreground">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-white/5 text-white/50 transition-colors duration-150 group-hover:bg-brand group-hover:text-brand-foreground">
                   <Icon className="size-4" />
                 </span>
                 {link.label}
@@ -161,14 +161,14 @@ function NavLinkList({
               onClick={() => setOpenSection(isOpen ? null : link.href)}
               aria-expanded={isOpen}
               className={cn(
-                "group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors duration-150",
-                isOpen ? "bg-brand/25 text-ink" : "text-ink/70 hover:bg-brand/20 hover:text-ink"
+                "group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors duration-150",
+                isOpen ? "bg-brand/20 text-white" : "text-white/70 hover:bg-brand/15 hover:text-white"
               )}
             >
               <span
                 className={cn(
-                  "flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-150",
-                  isOpen ? "bg-brand text-brand-foreground" : "bg-ink/5 text-ink/50 group-hover:bg-brand group-hover:text-brand-foreground"
+                  "flex size-8 shrink-0 items-center justify-center rounded-md transition-colors duration-150",
+                  isOpen ? "bg-brand text-brand-foreground" : "bg-white/5 text-white/50 group-hover:bg-brand group-hover:text-brand-foreground"
                 )}
               >
                 <Icon className="size-4" />
@@ -195,7 +195,7 @@ function NavLinkList({
                       {link.groups.map((group, idx) => (
                         <div key={group.heading ?? idx}>
                           {group.heading && (
-                            <span className="block px-2 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-ink/40">
+                            <span className="block px-2 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/40">
                               {group.heading}
                             </span>
                           )}
@@ -205,7 +205,7 @@ function NavLinkList({
                                 key={item.label}
                                 href={item.href}
                                 onClick={onNavigate}
-                                className="rounded-full border border-black/5 bg-black/[0.03] px-2.5 py-1 text-[0.78rem] leading-snug whitespace-nowrap text-ink/60 transition-colors duration-150 hover:border-brand/40 hover:bg-brand/15 hover:text-ink"
+                                className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[0.78rem] leading-snug whitespace-nowrap text-white/60 transition-colors duration-150 hover:border-brand/40 hover:bg-brand/15 hover:text-white"
                               >
                                 {item.label}
                               </Link>
@@ -239,20 +239,20 @@ function GroupsPanel({
   return (
     <div
       className={cn(
-        "rounded-[1.5rem] border border-black/5 bg-white/95 p-5 shadow-2xl shadow-black/20 backdrop-blur-xl",
+        "rounded-xl border border-white/10 bg-ink/95 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl",
         multiColumn ? "w-[calc(100vw-22rem)] max-w-[560px]" : "w-60"
       )}
     >
       {title && (
-        <div className="mb-3 border-b border-black/5 pb-2">
-          <span className="text-sm font-semibold text-ink">{title}</span>
+        <div className="mb-3 border-b border-white/10 pb-2">
+          <span className="text-sm font-semibold text-white">{title}</span>
         </div>
       )}
       <div className={cn(multiColumn ? "grid grid-cols-2 gap-x-8 gap-y-1" : "flex flex-col")}>
         {groups.map((group, idx) => (
           <div key={group.heading ?? idx}>
             {group.heading && (
-              <span className="block px-2 pb-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-ink/40">
+              <span className="block px-2 pb-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/40">
                 {group.heading}
               </span>
             )}
@@ -262,7 +262,7 @@ function GroupsPanel({
                   <Link
                     href={item.href}
                     onClick={onNavigate}
-                    className="block rounded-lg px-2 py-1.5 text-sm leading-snug text-ink/65 transition-colors duration-150 hover:bg-brand/15 hover:text-ink"
+                    className="block rounded-md px-2 py-1.5 text-sm leading-snug text-white/65 transition-colors duration-150 hover:bg-brand/15 hover:text-white"
                   >
                     {item.label}
                   </Link>
@@ -278,11 +278,11 @@ function GroupsPanel({
 
 function DesktopSidebarRail({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-full border border-white/50 bg-white/85 p-2 shadow-2xl shadow-black/15 backdrop-blur-xl">
+    <div className="flex flex-col items-center gap-1 rounded-full border border-white/10 bg-ink/90 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl">
       <Link
         href="#top"
         onClick={onNavigate}
-        className="mb-1 flex size-11 items-center justify-center rounded-full bg-white/70"
+        className="mb-1 flex size-11 items-center justify-center rounded-full bg-white/95"
       >
         <Image
           src="/logo.png"
@@ -294,7 +294,7 @@ function DesktopSidebarRail({ onNavigate }: { onNavigate: () => void }) {
         />
       </Link>
 
-      <span aria-hidden className="my-1 h-px w-6 rounded-full bg-black/10" />
+      <span aria-hidden className="my-1 h-px w-6 rounded-full bg-white/10" />
 
       <ul className="flex flex-col items-center gap-1">
         {NAV_LINKS.map((link) => {
@@ -304,7 +304,7 @@ function DesktopSidebarRail({ onNavigate }: { onNavigate: () => void }) {
               <Link
                 href={link.href}
                 onClick={onNavigate}
-                className="flex size-11 items-center justify-center rounded-full text-ink/55 transition-all duration-200 hover:scale-105 hover:bg-brand hover:text-brand-foreground"
+                className="flex size-11 items-center justify-center rounded-full text-white/55 transition-all duration-200 hover:scale-105 hover:bg-brand hover:text-brand-foreground"
               >
                 <Icon className="size-[1.1rem]" />
               </Link>
@@ -312,7 +312,7 @@ function DesktopSidebarRail({ onNavigate }: { onNavigate: () => void }) {
                 {link.groups ? (
                   <GroupsPanel groups={link.groups} title={link.label} onNavigate={onNavigate} />
                 ) : (
-                  <span className="block whitespace-nowrap rounded-full border border-black/5 bg-white/95 px-3.5 py-2 text-sm font-medium text-ink shadow-xl shadow-black/10 backdrop-blur-xl">
+                  <span className="block whitespace-nowrap rounded-lg border border-white/10 bg-ink/95 px-3.5 py-2 text-sm font-medium text-white shadow-xl shadow-black/40 backdrop-blur-xl">
                     {link.label}
                   </span>
                 )}
@@ -322,18 +322,18 @@ function DesktopSidebarRail({ onNavigate }: { onNavigate: () => void }) {
         })}
       </ul>
 
-      <span aria-hidden className="my-1 h-px w-6 rounded-full bg-black/10" />
+      <span aria-hidden className="my-1 h-px w-6 rounded-full bg-white/10" />
 
       <div className="group relative">
         <Link
           href="#contact"
           onClick={onNavigate}
-          className="flex size-11 items-center justify-center rounded-full bg-brand text-brand-foreground shadow-[0_6px_16px_-4px_rgba(229,252,160,0.9)] transition-transform duration-200 hover:scale-105"
+          className="glow-brand flex size-11 items-center justify-center rounded-full bg-brand text-brand-foreground transition-transform duration-200 hover:scale-105"
         >
           <Send className="size-[1.05rem]" />
         </Link>
         <div className="invisible absolute left-full top-1/2 z-20 -translate-y-1/2 translate-x-1 pl-3 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:translate-x-0 group-hover:opacity-100">
-          <span className="block whitespace-nowrap rounded-full border border-black/5 bg-white/95 px-3.5 py-2 text-sm font-medium text-ink shadow-xl shadow-black/10 backdrop-blur-xl">
+          <span className="block whitespace-nowrap rounded-lg border border-white/10 bg-ink/95 px-3.5 py-2 text-sm font-medium text-white shadow-xl shadow-black/40 backdrop-blur-xl">
             Get a Quote
           </span>
         </div>
@@ -354,15 +354,15 @@ function MobileDrawer({
   onClose: () => void
 }) {
   return (
-    <div className="flex h-full w-[82vw] max-w-xs flex-col bg-white shadow-2xl">
-      <div className="flex items-center justify-between border-b border-black/5 px-5 py-4">
-        <Link href="#top" onClick={onNavigate} className="flex items-center">
+    <div className="flex h-full w-[82vw] max-w-xs flex-col bg-ink shadow-2xl">
+      <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+        <Link href="#top" onClick={onNavigate} className="flex items-center rounded-md bg-white/95 px-2 py-1.5">
           <Image
             src="/logo.png"
             alt="Mr. Detailer logo"
             width={172}
             height={130}
-            className="h-8 w-auto object-contain"
+            className="h-7 w-auto object-contain"
             priority
           />
         </Link>
@@ -370,7 +370,7 @@ function MobileDrawer({
           type="button"
           aria-label="Close navigation menu"
           onClick={onClose}
-          className="flex size-9 items-center justify-center rounded-full text-ink/60 transition-colors hover:bg-ink/5 hover:text-ink"
+          className="flex size-9 items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/5 hover:text-white"
         >
           <X className="size-5" />
         </button>
@@ -380,10 +380,10 @@ function MobileDrawer({
         <NavLinkList openSection={openSection} setOpenSection={setOpenSection} onNavigate={onNavigate} compact />
       </div>
 
-      <div className="border-t border-black/5 px-4 py-4">
+      <div className="border-t border-white/10 px-4 py-4">
         <Button
           asChild
-          className="w-full rounded-full bg-brand text-brand-foreground shadow-[0_6px_16px_-4px_rgba(229,252,160,0.9)] hover:bg-brand/85"
+          className="w-full rounded-md bg-brand text-sm font-semibold uppercase tracking-wide text-brand-foreground shadow-[0_6px_16px_-4px_rgba(255,255,255,0.35)] hover:bg-white"
         >
           <Link href="#contact" onClick={onNavigate}>
             Get a Quote
@@ -456,7 +456,7 @@ export function Navbar() {
             exit={{ opacity: 0, x: -16, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 380, damping: 30 }}
             className={cn(
-              "fixed z-50 flex size-12 items-center justify-center rounded-full border border-black/5 bg-white/90 text-ink shadow-xl shadow-black/15 backdrop-blur-xl transition-transform duration-200 hover:scale-105",
+              "fixed z-50 flex size-12 items-center justify-center rounded-full border border-white/10 bg-ink/90 text-white shadow-xl shadow-black/40 backdrop-blur-xl transition-transform duration-200 hover:scale-105",
               isMobile ? "left-4 top-4" : "left-6 top-1/2 -translate-y-1/2"
             )}
           >
@@ -509,7 +509,7 @@ export function Navbar() {
                     type="button"
                     aria-label="Close navigation menu"
                     onClick={closeAll}
-                    className="absolute -top-2 -right-2 flex size-7 items-center justify-center rounded-full border border-black/5 bg-white text-ink shadow-lg"
+                    className="absolute -top-2 -right-2 flex size-7 items-center justify-center rounded-full border border-white/10 bg-ink text-white shadow-lg"
                   >
                     <X className="size-3.5" />
                   </button>

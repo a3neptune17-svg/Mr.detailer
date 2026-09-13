@@ -8,8 +8,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-bricolage);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-heading: var(--font-oswald);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -52,41 +52,41 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: #e5fca0;
-  --primary-foreground: #0c1206;
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: #e5fca0;
-  --accent-foreground: #0c1206;
+  --brand: #e5fca0f0;
+  --brand-foreground: #1a1a18f0;
+  --ink: #1a1a18f0;
+  --background: var(--ink);
+  --foreground: #ffffff;
+  --card: var(--ink);
+  --card-foreground: #ffffff;
+  --popover: var(--ink);
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: var(--ink);
+  --secondary: var(--ink);
+  --secondary-foreground: #ffffff;
+  --muted: var(--ink);
+  --muted-foreground: #9c9c9c;
+  --accent: #ffffff;
+  --accent-foreground: var(--ink);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: #b9d97e;
-  --brand: #e5fca0;
-  --brand-foreground: #0c1206;
-  --ink: #0b0d0a;
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(1 0 0 / 40%);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.5rem;
+  --sidebar: var(--ink);
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: var(--ink);
+  --sidebar-accent: var(--ink);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(1 0 0 / 40%);
 }
 
 .dark {
@@ -164,4 +164,38 @@
   opacity: 0.5;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Racing curb / rumble-strip divider — motorsport signature detail used between sections */
+.rumble-strip {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--brand) 0,
+    var(--brand) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+/* Hollow outlined numerals, like a car number-plate roundel */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(245, 245, 245, 0.14);
+}
+
+/* Crisp hollow lettering, like a race-door number */
+.text-outline-heavy {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.9);
+}
+
+/* Checkered-flag swatch */
+.checker {
+  background-image: repeating-conic-gradient(#ffffff 0% 25%, var(--ink) 0% 50%);
+  background-size: 16px 16px;
+}
+
+/* Neon halo used behind key CTAs and accent chips */
+.glow-brand {
+  box-shadow: 0 10px 34px -6px var(--brand);
 }

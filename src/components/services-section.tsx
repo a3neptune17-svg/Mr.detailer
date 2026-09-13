@@ -38,7 +38,7 @@ const container = {
 }
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
+  hidden: { opacity: 0, y: 18 },
   show: { opacity: 1, y: 0 },
 }
 
@@ -47,7 +47,7 @@ export function ServicesSection() {
     <section id="services" className="relative overflow-hidden bg-background py-24">
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 top-0 size-72 rounded-full bg-brand/15 blur-3xl"
+        className="pointer-events-none absolute -right-24 top-0 size-72 rounded-full bg-brand/10 blur-3xl"
       />
 
       <div className="relative mx-auto max-w-6xl px-6">
@@ -56,12 +56,16 @@ export function ServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
+          className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end"
         >
           <SectionHeading
             eyebrow="Services"
             title="Everything your car needs, nothing it doesn't."
             className="max-w-xl"
           />
+          <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/35">
+            04 disciplines
+          </span>
         </motion.div>
 
         <motion.div
@@ -69,23 +73,28 @@ export function ServicesSection() {
           whileInView="show"
           viewport={{ once: true, margin: "-80px" }}
           variants={container}
-          className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-12 border-t border-white/10"
         >
           {SERVICES.map(({ icon: Icon, title, description }, idx) => (
             <motion.div
               key={title}
               variants={fadeUp}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="group relative overflow-hidden rounded-3xl border border-black/5 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="group grid grid-cols-[3.5rem_1fr] items-center gap-5 border-b border-white/10 py-7 transition-colors duration-300 hover:bg-white/[0.02] sm:grid-cols-[5.5rem_3.5rem_1fr_20rem] sm:gap-8 sm:px-2"
             >
-              <span className="absolute right-5 top-5 text-[0.65rem] font-semibold text-ink/20">
+              <span
+                aria-hidden
+                className="text-outline hidden select-none font-heading text-6xl font-bold leading-none transition-colors duration-300 group-hover:[-webkit-text-stroke:1.5px_rgba(255,255,255,0.4)] sm:block"
+              >
                 0{idx + 1}
               </span>
-              <span className="flex size-11 items-center justify-center rounded-2xl bg-brand text-brand-foreground transition-transform duration-300 group-hover:scale-105">
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand text-brand-foreground transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
                 <Icon className="size-5" />
               </span>
-              <h3 className="mt-5 text-lg font-semibold text-ink">{title}</h3>
-              <p className="mt-2 text-sm leading-6 text-ink/60">
+              <h3 className="font-heading text-xl font-semibold text-white transition-colors duration-300 group-hover:text-brand sm:text-2xl">
+                {title}
+              </h3>
+              <p className="col-span-2 text-sm leading-6 text-white/55 sm:col-span-1 sm:text-right">
                 {description}
               </p>
             </motion.div>

@@ -15,6 +15,7 @@ const CONTACT_DETAILS = [
 export function ContactSection() {
   return (
     <section id="contact" className="relative overflow-hidden bg-ink py-24 text-white">
+      <div aria-hidden className="rumble-strip absolute inset-x-0 top-0 h-1.5" />
       <div aria-hidden className="bg-grain pointer-events-none absolute inset-0" />
       <div
         aria-hidden
@@ -28,14 +29,13 @@ export function ContactSection() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative mx-auto flex max-w-3xl flex-col items-center px-6 text-center"
       >
-        <span className="flex size-14 items-center justify-center rounded-2xl bg-brand text-brand-foreground">
+        <span className="flex size-14 items-center justify-center rounded-xl bg-brand text-brand-foreground">
           <Timer className="size-6" />
         </span>
         <SectionHeading
           eyebrow="Book Now"
           title="Ready for a car that turns heads?"
           align="center"
-          invert
           className="mt-5"
         />
         <p className="mt-3 max-w-md text-white/60">
@@ -45,7 +45,7 @@ export function ContactSection() {
         <Button
           asChild
           size="lg"
-          className="mt-8 rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/85"
+          className="mt-8 rounded-md bg-brand px-6 text-sm font-semibold uppercase tracking-wide text-brand-foreground hover:bg-white"
         >
           <Link href="mailto:hello@mrdetailer.studio">Get in Touch</Link>
         </Button>

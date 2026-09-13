@@ -28,15 +28,22 @@ export default function Home() {
       <ServicesSection />
 
       {/* Process */}
-      <section id="process" className="relative overflow-hidden bg-secondary/60 py-24">
+      <section id="process" className="relative overflow-hidden bg-secondary py-24">
+        <div aria-hidden className="rumble-strip absolute inset-x-0 top-0 h-1.5" />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-8 z-0 -translate-x-1/2 select-none whitespace-nowrap text-[16vw] font-heading font-bold italic tracking-tighter text-white/[0.03] sm:text-[10vw]"
+        >
+          workflow
+        </span>
         <div
           aria-hidden
-          className="pointer-events-none absolute -left-16 bottom-0 size-72 rounded-full bg-brand/15 blur-3xl"
+          className="pointer-events-none absolute -left-16 bottom-0 size-72 rounded-full bg-brand/10 blur-3xl"
         />
         <div className="relative mx-auto max-w-6xl px-6 lg:pl-24">
           <SectionHeading
-            eyebrow="Process"
-            title="A simple, transparent workflow."
+            eyebrow="Workflow"
+            title="Controlled from inspection to release."
             className="max-w-xl"
           />
           <ProcessSteps />

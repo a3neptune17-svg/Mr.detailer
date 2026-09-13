@@ -85,7 +85,7 @@ export function Footer() {
       <div className="relative border-b border-white/10">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 py-12 sm:flex-row sm:items-center lg:px-24">
           <div>
-            <h3 className="text-2xl font-semibold sm:text-3xl">Stay in the loop.</h3>
+            <h3 className="font-heading text-2xl font-semibold sm:text-3xl">Stay in the loop.</h3>
             <p className="mt-2 max-w-sm text-sm text-white/50">
               Studio openings, seasonal offers, and detailing tips — no spam,
               unsubscribe anytime.
@@ -93,7 +93,7 @@ export function Footer() {
           </div>
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="flex w-full max-w-sm items-center gap-1.5 rounded-full border border-white/15 bg-white/5 p-1.5 pl-5 backdrop-blur-md sm:w-auto"
+            className="flex w-full max-w-sm items-center gap-1.5 rounded-md border border-white/15 bg-white/5 p-1.5 pl-5 backdrop-blur-md sm:w-auto"
           >
             <input
               type="email"
@@ -104,7 +104,7 @@ export function Footer() {
             <Button
               type="submit"
               size="sm"
-              className="shrink-0 rounded-full bg-brand text-brand-foreground hover:bg-brand/85"
+              className="shrink-0 rounded-sm bg-brand text-xs font-semibold uppercase tracking-wide text-brand-foreground hover:bg-white"
             >
               Subscribe
             </Button>
@@ -117,7 +117,7 @@ export function Footer() {
           <div>
             <Link
               href="#top"
-              className="inline-flex items-center rounded-xl bg-white/95 px-3 py-2 shadow-sm"
+              className="inline-flex items-center rounded-md bg-white/95 px-3 py-2 shadow-sm"
             >
               <Image
                 src="/logo.png"
@@ -147,7 +147,7 @@ export function Footer() {
 
           {FOOTER_LINKS.map((group) => (
             <div key={group.heading}>
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
+              <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
                 {group.heading}
               </span>
               <ul className="mt-4 flex flex-col gap-3">
@@ -161,7 +161,7 @@ export function Footer() {
           ))}
 
           <div>
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
+            <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
               Contact
             </span>
             <ul className="mt-4 flex flex-col gap-3 text-sm text-white/60">
@@ -187,14 +187,14 @@ export function Footer() {
       </div>
 
       {/* Service ticker */}
-      <div className="relative overflow-hidden border-y border-white/10 bg-white/5 py-3">
+      <div className="relative overflow-hidden border-y border-white/10 bg-white/[0.03] py-3">
         <div className="animate-marquee flex w-max items-center gap-10 whitespace-nowrap">
           {Array.from({ length: 2 }).map((_, dup) => (
             <div key={dup} className="flex items-center gap-10 pr-10">
               {TICKER.map((label) => (
                 <span
                   key={`${dup}-${label}`}
-                  className="flex items-center gap-10 text-xs font-semibold uppercase tracking-[0.2em] text-white/40"
+                  className="flex items-center gap-10 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-white/40"
                 >
                   {label}
                   <span aria-hidden className="size-1 rounded-full bg-brand/60" />

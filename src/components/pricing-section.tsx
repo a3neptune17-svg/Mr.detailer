@@ -49,10 +49,11 @@ const fadeUp = {
 
 export function PricingSection() {
   return (
-    <section id="pricing" className="relative overflow-hidden bg-secondary/60 py-24">
+    <section id="pricing" className="relative overflow-hidden bg-secondary py-24">
+      <div aria-hidden className="rumble-strip absolute inset-x-0 top-0 h-1.5" />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-16 top-10 size-80 rounded-full bg-brand/15 blur-3xl"
+        className="pointer-events-none absolute -right-16 top-10 size-80 rounded-full bg-brand/10 blur-3xl"
       />
 
       <div className="relative mx-auto max-w-6xl px-6">
@@ -79,22 +80,22 @@ export function PricingSection() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className={
                 plan.featured
-                  ? "relative flex flex-col rounded-3xl bg-ink p-8 text-white shadow-xl shadow-black/20 ring-1 ring-brand/30"
-                  : "relative flex flex-col rounded-3xl border border-black/5 bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+                  ? "relative flex flex-col rounded-2xl bg-ink p-8 text-white shadow-xl shadow-black/40 ring-1 ring-brand/40"
+                  : "relative flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand/30 hover:bg-white/[0.06]"
               }
             >
               {plan.featured && (
-                <span className="absolute -top-3 right-6 flex items-center gap-1 rounded-full bg-brand px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-brand-foreground shadow-md">
+                <span className="absolute -top-3 right-6 flex items-center gap-1 bg-brand px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-brand-foreground shadow-md">
                   <Award className="size-3" />
                   Most popular
                 </span>
               )}
-              <h3 className="text-lg font-semibold">{plan.name}</h3>
+              <h3 className="font-heading text-lg font-semibold text-white">{plan.name}</h3>
               <p
                 className={
                   plan.featured
-                    ? "mt-4 text-3xl font-semibold text-brand"
-                    : "mt-4 text-3xl font-semibold text-ink"
+                    ? "mt-4 font-heading text-3xl font-semibold text-brand"
+                    : "mt-4 font-heading text-3xl font-semibold text-white"
                 }
               >
                 {plan.price}
@@ -103,7 +104,7 @@ export function PricingSection() {
                 className={
                   plan.featured
                     ? "mt-3 text-sm leading-6 text-white/60"
-                    : "mt-3 text-sm leading-6 text-ink/60"
+                    : "mt-3 text-sm leading-6 text-white/60"
                 }
               >
                 {plan.desc}
@@ -113,19 +114,9 @@ export function PricingSection() {
                 {plan.features.map((feature) => (
                   <li
                     key={feature}
-                    className={
-                      plan.featured
-                        ? "flex items-start gap-2 text-sm text-white/75"
-                        : "flex items-start gap-2 text-sm text-ink/70"
-                    }
+                    className="flex items-start gap-2 text-sm text-white/75"
                   >
-                    <Check
-                      className={
-                        plan.featured
-                          ? "mt-0.5 size-4 shrink-0 text-brand"
-                          : "mt-0.5 size-4 shrink-0 text-brand-foreground/70"
-                      }
-                    />
+                    <Check className="mt-0.5 size-4 shrink-0 text-brand" />
                     {feature}
                   </li>
                 ))}
@@ -135,8 +126,8 @@ export function PricingSection() {
                 asChild
                 className={
                   plan.featured
-                    ? "mt-8 w-full rounded-full bg-brand text-brand-foreground hover:bg-brand/85"
-                    : "mt-8 w-full rounded-full bg-ink text-white hover:bg-ink/85"
+                    ? "mt-8 w-full rounded-md bg-brand text-sm font-semibold uppercase tracking-wide text-brand-foreground hover:bg-white"
+                    : "mt-8 w-full rounded-md border border-white/15 bg-transparent text-sm font-semibold uppercase tracking-wide text-white hover:border-brand hover:text-brand"
                 }
               >
                 <Link href="#contact">Choose {plan.name}</Link>
