@@ -7,12 +7,10 @@ import { AnimatePresence, motion } from "framer-motion"
 import {
   Building2,
   ChevronDown,
-  ChevronRight,
   Compass,
-  Menu,
   Newspaper,
+  Phone,
   PhoneCall,
-  Send,
   ShieldCheck,
   ShoppingBag,
   Wrench,
@@ -104,32 +102,14 @@ const NAV_LINKS: NavLink[] = [
   { href: "#contact", label: "Contact Us", icon: PhoneCall },
 ]
 
-function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState(false)
-
-  React.useEffect(() => {
-    const query = window.matchMedia("(max-width: 767px)")
-    const update = () => setIsMobile(query.matches)
-    update()
-    query.addEventListener("change", update)
-    return () => query.removeEventListener("change", update)
-  }, [])
-
-  return isMobile
-}
-
 function NavLinkList({
   openSection,
   setOpenSection,
   onNavigate,
-  compact,
-  flyout,
 }: {
   openSection: string | null
   setOpenSection: (v: string | null) => void
   onNavigate: () => void
-  compact?: boolean
-  flyout?: boolean
 }) {
   return (
     <ul className="flex flex-col gap-1">
@@ -175,49 +155,44 @@ function NavLinkList({
               </span>
               <span className="flex-1">{link.label}</span>
               <ChevronDown
-                className={cn(
-                  "size-3.5 shrink-0 transition-transform duration-200",
-                  isOpen && (flyout ? "rotate-90" : "rotate-180")
-                )}
+                className={cn("size-3.5 shrink-0 transition-transform duration-200", isOpen && "rotate-180")}
               />
             </button>
-            {!flyout && (
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden"
-                  >
-                    <div className={cn("flex flex-col gap-3 py-2", compact ? "pl-11" : "pl-11")}>
-                      {link.groups.map((group, idx) => (
-                        <div key={group.heading ?? idx}>
-                          {group.heading && (
-                            <span className="block px-2 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/40">
-                              {group.heading}
-                            </span>
-                          )}
-                          <div className={cn("flex flex-wrap gap-1.5", group.heading && "mt-1.5")}>
-                            {group.items.map((item) => (
-                              <Link
-                                key={item.label}
-                                href={item.href}
-                                onClick={onNavigate}
-                                className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[0.78rem] leading-snug whitespace-nowrap text-white/60 transition-colors duration-150 hover:border-brand/40 hover:bg-brand/15 hover:text-white"
-                              >
-                                {item.label}
-                              </Link>
-                            ))}
-                          </div>
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="flex flex-col gap-3 py-2 pl-11">
+                    {link.groups.map((group, idx) => (
+                      <div key={group.heading ?? idx}>
+                        {group.heading && (
+                          <span className="block px-2 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/40">
+                            {group.heading}
+                          </span>
+                        )}
+                        <div className={cn("flex flex-wrap gap-1.5", group.heading && "mt-1.5")}>
+                          {group.items.map((item) => (
+                            <Link
+                              key={item.label}
+                              href={item.href}
+                              onClick={onNavigate}
+                              className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[0.78rem] leading-snug whitespace-nowrap text-white/60 transition-colors duration-150 hover:border-brand/40 hover:bg-brand/15 hover:text-white"
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            )}
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </li>
         )
       })}
@@ -225,29 +200,16 @@ function NavLinkList({
   )
 }
 
-function GroupsPanel({
-  groups,
-  onNavigate,
-  title,
-}: {
-  groups: MenuGroup[]
-  onNavigate: () => void
-  title?: string
-}) {
+function GroupsPanel({ groups, onNavigate }: { groups: MenuGroup[]; onNavigate: () => void }) {
   const multiColumn = groups.length > 1
 
   return (
     <div
       className={cn(
         "rounded-xl border border-white/10 bg-ink/95 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl",
-        multiColumn ? "w-[calc(100vw-22rem)] max-w-[560px]" : "w-60"
+        multiColumn ? "w-[calc(100vw-4rem)] max-w-[560px]" : "w-60"
       )}
     >
-      {title && (
-        <div className="mb-3 border-b border-white/10 pb-2">
-          <span className="text-sm font-semibold text-white">{title}</span>
-        </div>
-      )}
       <div className={cn(multiColumn ? "grid grid-cols-2 gap-x-8 gap-y-1" : "flex flex-col")}>
         {groups.map((group, idx) => (
           <div key={group.heading ?? idx}>
@@ -276,69 +238,69 @@ function GroupsPanel({
   )
 }
 
-function DesktopSidebarRail({ onNavigate }: { onNavigate: () => void }) {
+function DesktopNavLinks({ onNavigate }: { onNavigate: () => void }) {
   return (
-    <div className="flex flex-col items-center gap-1 rounded-full border border-white/10 bg-ink/90 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl">
-      <Link
-        href="#top"
-        onClick={onNavigate}
-        className="mb-1 flex size-11 items-center justify-center rounded-full bg-white/95"
-      >
-        <Image
-          src="/logo.png"
-          alt="Mr. Detailer logo"
-          width={172}
-          height={130}
-          className="h-6 w-auto object-contain"
-          priority
-        />
-      </Link>
-
-      <span aria-hidden className="my-1 h-px w-6 rounded-full bg-white/10" />
-
-      <ul className="flex flex-col items-center gap-1">
-        {NAV_LINKS.map((link) => {
-          const Icon = link.icon
+    <nav className="hidden items-center gap-1 lg:flex">
+      {NAV_LINKS.map((link) => {
+        if (!link.groups) {
           return (
-            <li key={link.href} className="group relative">
-              <Link
-                href={link.href}
-                onClick={onNavigate}
-                className="flex size-11 items-center justify-center rounded-full text-white/55 transition-all duration-200 hover:scale-105 hover:bg-brand hover:text-brand-foreground"
-              >
-                <Icon className="size-[1.1rem]" />
-              </Link>
-              <div className="invisible absolute left-full top-1/2 z-20 -translate-y-1/2 translate-x-1 pl-3 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:translate-x-0 group-hover:opacity-100">
-                {link.groups ? (
-                  <GroupsPanel groups={link.groups} title={link.label} onNavigate={onNavigate} />
-                ) : (
-                  <span className="block whitespace-nowrap rounded-lg border border-white/10 bg-ink/95 px-3.5 py-2 text-sm font-medium text-white shadow-xl shadow-black/40 backdrop-blur-xl">
-                    {link.label}
-                  </span>
-                )}
-              </div>
-            </li>
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={onNavigate}
+              className="group relative px-3.5 py-2 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-white/65 transition-colors duration-200 hover:text-white"
+            >
+              {link.label}
+              <span
+                aria-hidden
+                className="absolute inset-x-3.5 -bottom-0.5 h-px origin-center scale-x-0 bg-brand transition-transform duration-200 ease-out group-hover:scale-x-100"
+              />
+            </Link>
           )
-        })}
-      </ul>
+        }
 
-      <span aria-hidden className="my-1 h-px w-6 rounded-full bg-white/10" />
+        return (
+          <div key={link.href} className="group relative">
+            <button
+              type="button"
+              className="flex items-center gap-1 px-3.5 py-2 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-white/65 transition-colors duration-200 hover:text-white"
+            >
+              {link.label}
+              <ChevronDown className="size-3.5 transition-transform duration-200 group-hover:rotate-180" />
+              <span
+                aria-hidden
+                className="absolute inset-x-3.5 -bottom-0.5 h-px origin-center scale-x-0 bg-brand transition-transform duration-200 ease-out group-hover:scale-x-100"
+              />
+            </button>
+            <div className="invisible absolute left-0 top-full z-20 pt-3 opacity-0 transition-all duration-150 ease-out group-hover:visible group-hover:opacity-100">
+              <GroupsPanel groups={link.groups} onNavigate={onNavigate} />
+            </div>
+          </div>
+        )
+      })}
+    </nav>
+  )
+}
 
-      <div className="group relative">
-        <Link
-          href="#contact"
-          onClick={onNavigate}
-          className="glow-brand flex size-11 items-center justify-center rounded-full bg-brand text-brand-foreground transition-transform duration-200 hover:scale-105"
-        >
-          <Send className="size-[1.05rem]" />
-        </Link>
-        <div className="invisible absolute left-full top-1/2 z-20 -translate-y-1/2 translate-x-1 pl-3 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:translate-x-0 group-hover:opacity-100">
-          <span className="block whitespace-nowrap rounded-lg border border-white/10 bg-ink/95 px-3.5 py-2 text-sm font-medium text-white shadow-xl shadow-black/40 backdrop-blur-xl">
-            Get a Quote
-          </span>
-        </div>
-      </div>
-    </div>
+function MenuGlyph({ open }: { open: boolean }) {
+  return (
+    <span className="relative flex size-4 flex-col items-center justify-center">
+      <motion.span
+        animate={{ rotate: open ? 45 : 0, y: open ? 0 : -4 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="absolute h-px w-4 bg-current"
+      />
+      <motion.span
+        animate={{ opacity: open ? 0 : 1 }}
+        transition={{ duration: 0.15 }}
+        className="absolute h-px w-4 bg-current"
+      />
+      <motion.span
+        animate={{ rotate: open ? -45 : 0, y: open ? 0 : 4 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="absolute h-px w-4 bg-current"
+      />
+    </span>
   )
 }
 
@@ -356,13 +318,13 @@ function MobileDrawer({
   return (
     <div className="flex h-full w-[82vw] max-w-xs flex-col bg-ink shadow-2xl">
       <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-        <Link href="#top" onClick={onNavigate} className="flex items-center rounded-md bg-white/95 px-2 py-1.5">
+        <Link href="#top" onClick={onNavigate} className="flex items-center">
           <Image
             src="/logo.png"
             alt="Mr. Detailer logo"
             width={172}
             height={130}
-            className="h-7 w-auto object-contain"
+            className="h-8 w-auto object-contain"
             priority
           />
         </Link>
@@ -377,7 +339,7 @@ function MobileDrawer({
       </div>
 
       <div className="flex-1 overflow-y-auto px-3 py-4">
-        <NavLinkList openSection={openSection} setOpenSection={setOpenSection} onNavigate={onNavigate} compact />
+        <NavLinkList openSection={openSection} setOpenSection={setOpenSection} onNavigate={onNavigate} />
       </div>
 
       <div className="border-t border-white/10 px-4 py-4">
@@ -395,17 +357,12 @@ function MobileDrawer({
 }
 
 export function Navbar() {
-  const isMobile = useIsMobile()
   const [scrolled, setScrolled] = React.useState(false)
   const [drawerOpen, setDrawerOpen] = React.useState(false)
   const [openSection, setOpenSection] = React.useState<string | null>(null)
 
   React.useEffect(() => {
-    const onScroll = () => {
-      const pastHero = window.scrollY > window.innerHeight * 0.7
-      setScrolled(pastHero)
-      if (!pastHero) setDrawerOpen(false)
-    }
+    const onScroll = () => setScrolled(window.scrollY > 24)
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
@@ -423,49 +380,59 @@ export function Navbar() {
     setOpenSection(null)
   }
 
-  const showDockedSidebar = !isMobile && !scrolled
-  const showToggle = !showDockedSidebar && !drawerOpen
-
   return (
     <>
-      {/* Docked sidebar — desktop only, visible while the hero is on screen. Submenus open on hover so it never blocks the hero. */}
-      <AnimatePresence>
-        {showDockedSidebar && (
-          <motion.div
-            key="hero-sidebar"
-            initial={{ opacity: 0, x: -24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -24 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="fixed left-6 top-1/2 z-50 -translate-y-1/2"
-          >
-            <DesktopSidebarRail onNavigate={closeAll} />
-          </motion.div>
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+          scrolled
+            ? "border-b border-white/10 bg-ink/85 shadow-lg shadow-black/30 backdrop-blur-xl"
+            : "bg-gradient-to-b from-ink/60 via-ink/20 to-transparent"
         )}
-      </AnimatePresence>
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 lg:px-10">
+          <Link href="#top" onClick={closeAll} className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="Mr. Detailer logo"
+              width={172}
+              height={130}
+              className="h-8 w-auto object-contain sm:h-9"
+              priority
+            />
+          </Link>
 
-      {/* Floating toggle — always on for mobile, appears on desktop once scrolled past the hero */}
-      <AnimatePresence>
-        {showToggle && (
-          <motion.button
-            type="button"
-            aria-label="Open navigation menu"
-            onClick={() => setDrawerOpen(true)}
-            initial={{ opacity: 0, x: -16, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -16, scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            className={cn(
-              "fixed z-50 flex size-12 items-center justify-center rounded-full border border-white/10 bg-ink/90 text-white shadow-xl shadow-black/40 backdrop-blur-xl transition-transform duration-200 hover:scale-105",
-              isMobile ? "left-4 top-4" : "left-6 top-1/2 -translate-y-1/2"
-            )}
-          >
-            {isMobile ? <Menu className="size-5" /> : <ChevronRight className="size-5" />}
-          </motion.button>
-        )}
-      </AnimatePresence>
+          <DesktopNavLinks onNavigate={closeAll} />
 
-      {/* Drawer */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="tel:+10000000000"
+              className="hidden items-center gap-2 font-mono text-[0.7rem] font-medium uppercase tracking-[0.14em] text-white/60 transition-colors duration-200 hover:text-white xl:flex"
+            >
+              <Phone className="size-3.5 text-brand" />
+              +1 (000) 000-0000
+            </Link>
+            <span aria-hidden className="hidden h-6 w-px bg-white/15 xl:block" />
+            <Button
+              asChild
+              className="hidden rounded-full bg-brand px-5 text-xs font-semibold uppercase tracking-wide text-brand-foreground hover:bg-white lg:inline-flex"
+            >
+              <Link href="#contact" onClick={closeAll}>
+                Get a Quote
+              </Link>
+            </Button>
+            <button
+              type="button"
+              aria-label={drawerOpen ? "Close navigation menu" : "Open navigation menu"}
+              onClick={() => setDrawerOpen((v) => !v)}
+              className="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-colors duration-150 hover:bg-white/10 lg:hidden"
+            >
+              <MenuGlyph open={drawerOpen} />
+            </button>
+          </div>
+        </div>
+      </header>
+
       <AnimatePresence>
         {drawerOpen && (
           <React.Fragment>
@@ -478,44 +445,21 @@ export function Navbar() {
               onClick={closeAll}
               className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-[2px]"
             />
-            {isMobile ? (
-              <motion.div
-                key="mobile-panel"
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ type: "spring", stiffness: 320, damping: 32 }}
-                className="fixed inset-y-0 left-0 z-50"
-              >
-                <MobileDrawer
-                  openSection={openSection}
-                  setOpenSection={setOpenSection}
-                  onNavigate={closeAll}
-                  onClose={closeAll}
-                />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="desktop-panel"
-                initial={{ opacity: 0, x: -24 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -24 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="fixed left-6 top-1/2 z-50 -translate-y-1/2"
-              >
-                <div className="relative">
-                  <DesktopSidebarRail onNavigate={closeAll} />
-                  <button
-                    type="button"
-                    aria-label="Close navigation menu"
-                    onClick={closeAll}
-                    className="absolute -top-2 -right-2 flex size-7 items-center justify-center rounded-full border border-white/10 bg-ink text-white shadow-lg"
-                  >
-                    <X className="size-3.5" />
-                  </button>
-                </div>
-              </motion.div>
-            )}
+            <motion.div
+              key="panel"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", stiffness: 320, damping: 32 }}
+              className="fixed inset-y-0 left-0 z-50"
+            >
+              <MobileDrawer
+                openSection={openSection}
+                setOpenSection={setOpenSection}
+                onNavigate={closeAll}
+                onClose={closeAll}
+              />
+            </motion.div>
           </React.Fragment>
         )}
       </AnimatePresence>

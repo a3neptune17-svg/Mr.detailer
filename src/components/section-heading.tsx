@@ -8,11 +8,13 @@ export function SectionHeading({
   eyebrow,
   title,
   align = "left",
+  tone = "dark",
   className,
 }: {
   eyebrow?: string
   title: ReactNode
   align?: "left" | "center"
+  tone?: "dark" | "light"
   className?: string
 }) {
   return (
@@ -24,12 +26,22 @@ export function SectionHeading({
             className="size-2.5 shrink-0 bg-brand"
             style={{ clipPath: "polygon(25% 0, 100% 0, 75% 100%, 0 100%)" }}
           />
-          <span className="font-mono text-xs font-semibold uppercase tracking-[0.32em] text-brand">
+          <span
+            className={cn(
+              "font-mono text-xs font-semibold uppercase tracking-[0.32em]",
+              tone === "light" ? "text-ink/60" : "text-brand"
+            )}
+          >
             {eyebrow}
           </span>
         </div>
       )}
-      <h2 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      <h2
+        className={cn(
+          "mt-4 text-4xl font-bold tracking-tight sm:text-5xl",
+          tone === "light" ? "text-ink" : "text-white"
+        )}
+      >
         {title}
       </h2>
     </div>

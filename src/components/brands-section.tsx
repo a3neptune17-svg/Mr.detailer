@@ -1,8 +1,9 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { motion } from "framer-motion"
-import { BadgeCheck } from "lucide-react"
+import { Award, ArrowUpRight, BadgeCheck, Layers, ShieldCheck } from "lucide-react"
 
 import { ScrollBulge } from "@/components/scroll-bulge"
 import { SectionHeading } from "@/components/section-heading"
@@ -36,16 +37,19 @@ const GALLERY = [
 
 const SPECS = [
   {
+    icon: Layers,
     label: "Film Thickness",
     value: "190 µm",
     description: "TPU self-healing topcoat",
   },
   {
+    icon: ShieldCheck,
     label: "Protection",
     value: "10-Year",
     description: "Manufacturer warranty",
   },
   {
+    icon: Award,
     label: "Certification",
     value: "SGS · CE",
     description: "Independently tested",
@@ -64,10 +68,10 @@ const fadeUp = {
 
 export function BrandsSection() {
   return (
-    <section className="relative overflow-hidden border-y border-white/10 bg-background py-24">
+    <section className="relative overflow-hidden border-y border-ink/10 bg-white py-24 sm:py-28">
       <span
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap text-[22vw] font-heading font-bold italic tracking-tighter text-white/[0.03] sm:text-[16vw]"
+        className="pointer-events-none absolute -top-4 right-0 z-0 select-none whitespace-nowrap text-[26vw] font-heading font-bold italic leading-none tracking-tighter text-ink/[0.035] sm:text-[15vw]"
       >
         namex
       </span>
@@ -81,7 +85,7 @@ export function BrandsSection() {
       />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 lg:pl-24">
-        <div className="grid gap-16 lg:grid-cols-2 lg:items-center lg:gap-12">
+        <div className="grid gap-16 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -91,11 +95,19 @@ export function BrandsSection() {
           >
             <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: "easeOut" }}>
               <SectionHeading
-                eyebrow="Our Protection Partner"
+                eyebrow="Official Protection Partner"
+                tone="light"
                 title={
                   <>
-                    One film. Every finish.{" "}
-                    <span className="text-brand">Namex.</span>
+                    <span className="block font-heading text-3xl font-medium leading-[1.08] tracking-tight text-ink sm:text-4xl lg:text-5xl">
+                      Every panel we finish
+                    </span>
+                    <span className="mt-1 block font-heading text-3xl font-bold leading-[1.08] tracking-tight text-ink sm:text-4xl lg:text-5xl">
+                      is backed by{" "}
+                      <span className="rounded-sm bg-brand px-1.5 text-brand-foreground">
+                        Namex.
+                      </span>
+                    </span>
                   </>
                 }
               />
@@ -104,13 +116,45 @@ export function BrandsSection() {
             <motion.p
               variants={fadeUp}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="mt-5 max-w-lg text-sm leading-6 text-white/60 sm:text-base"
+              className="mt-6 max-w-lg text-sm leading-7 text-ink/60 sm:text-base"
             >
-              Every ceramic coating and correction we deliver sits on top of
-              Namex Paint Protection Film — a self-healing TPU film engineered
-              to take the hits so your paint doesn&apos;t have to. It&apos;s the
-              only film that leaves our studio with a Mr. Detailer finish.
+              We don&apos;t just apply paint protection film — we install
+              Namex: a self-healing TPU engineered to absorb rock chips,
+              resist yellowing, and disappear into the finish. It&apos;s the
+              only film that leaves our studio with a Mr. Detailer signature,
+              because it&apos;s the only film that&apos;s earned it.
             </motion.p>
+
+            <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: "easeOut" }}>
+              <Link
+                href="#gallery"
+                className="group mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition-colors duration-200 hover:text-brand-foreground"
+              >
+                <span className="border-b border-transparent pb-0.5 group-hover:border-brand">
+                  See the results
+                </span>
+                <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/10 sm:grid-cols-3"
+            >
+              {SPECS.map((spec) => (
+                <div key={spec.label} className="flex flex-col gap-2 bg-ink p-6">
+                  <spec.icon className="size-4 text-brand" />
+                  <span className="font-heading text-2xl font-bold text-white sm:text-3xl">
+                    {spec.value}
+                  </span>
+                  <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-white/40">
+                    {spec.label}
+                  </span>
+                  <span className="text-xs text-white/50">{spec.description}</span>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -121,7 +165,7 @@ export function BrandsSection() {
             className="relative mx-auto w-full max-w-xs lg:mx-0 lg:ml-auto"
           >
             <div className="relative">
-              <div className="absolute -right-6 -top-8 w-32 rotate-6 overflow-hidden rounded-xl border border-white/10 bg-white shadow-2xl shadow-black/40 sm:w-40">
+              <div className="absolute -right-6 -top-8 w-32 rotate-6 overflow-hidden rounded-xl border border-ink/10 bg-white shadow-2xl shadow-black/20 sm:w-40">
                 <ScrollBulge>
                   <Image
                     src={GALLERY[1].src}
@@ -133,17 +177,18 @@ export function BrandsSection() {
                 </ScrollBulge>
               </div>
 
-              <div className="relative -rotate-3 overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl shadow-black/40">
+              <div className="relative -rotate-3 overflow-hidden rounded-2xl border border-ink/10 bg-ink shadow-2xl shadow-black/20">
                 <ScrollBulge>
-                  <Image
-                    src={GALLERY[0].src}
-                    alt={GALLERY[0].alt}
-                    width={GALLERY[0].width}
-                    height={GALLERY[0].height}
+                  <video
+                    src="/videos/hero.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
                     className="aspect-[4/5] w-full object-cover"
                   />
                 </ScrollBulge>
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
               </div>
 
               <div className="absolute -bottom-6 -left-6 flex items-center gap-2.5 rounded-xl border border-white/10 bg-ink p-3 pr-4 shadow-xl shadow-black/40 sm:-left-8">
@@ -161,7 +206,7 @@ export function BrandsSection() {
               {[GALLERY[2], GALLERY[3]].map((img) => (
                 <div
                   key={img.src}
-                  className="w-1/2 overflow-hidden rounded-lg border border-white/10 bg-white"
+                  className="w-1/2 overflow-hidden rounded-lg border border-ink/10 bg-white"
                 >
                   <ScrollBulge>
                     <Image
@@ -177,31 +222,6 @@ export function BrandsSection() {
             </div>
           </motion.div>
         </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={container}
-          className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3"
-        >
-          {SPECS.map((spec) => (
-            <motion.div
-              key={spec.label}
-              variants={fadeUp}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="flex flex-col gap-1 bg-ink p-6"
-            >
-              <span className="font-mono text-xs font-semibold uppercase tracking-[0.15em] text-white/40">
-                {spec.label}
-              </span>
-              <span className="font-heading text-2xl font-semibold text-brand sm:text-3xl">
-                {spec.value}
-              </span>
-              <span className="text-xs text-white/50">{spec.description}</span>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </section>
   )

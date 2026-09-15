@@ -38,9 +38,9 @@ const fadeUp = {
   show: { opacity: 1, y: 0 },
 }
 
-function Stars() {
+function Stars({ tone = "dark" }: { tone?: "dark" | "light" }) {
   return (
-    <div className="flex gap-0.5 text-brand">
+    <div className={`flex gap-0.5 ${tone === "light" ? "text-ink/70" : "text-brand"}`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} className="size-3.5 fill-current" />
       ))}
@@ -50,10 +50,10 @@ function Stars() {
 
 export function GallerySection() {
   return (
-    <section id="gallery" className="relative overflow-hidden bg-background py-24">
+    <section id="gallery" className="relative overflow-hidden bg-white py-24">
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-20 bottom-0 size-72 rounded-full bg-brand/10 blur-3xl"
+        className="pointer-events-none absolute -left-20 bottom-0 size-72 rounded-full bg-brand/20 blur-3xl"
       />
 
       <div className="relative mx-auto max-w-6xl px-6">
@@ -65,6 +65,7 @@ export function GallerySection() {
         >
           <SectionHeading
             eyebrow="Gallery"
+            tone="light"
             title="Results our clients keep talking about."
             className="max-w-xl"
           />
@@ -110,19 +111,19 @@ export function GallerySection() {
                 key={name}
                 variants={fadeUp}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="group relative flex flex-1 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:bg-white/[0.06]"
+                className="group relative flex flex-1 flex-col overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.03] p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:bg-ink/[0.05]"
               >
-                <Stars />
-                <p className="relative mt-3 text-sm leading-6 text-white/70">
+                <Stars tone="light" />
+                <p className="relative mt-3 text-sm leading-6 text-ink/70">
                   &ldquo;{quote}&rdquo;
                 </p>
-                <div className="relative mt-5 flex items-center gap-3 border-t border-white/10 pt-4">
+                <div className="relative mt-5 flex items-center gap-3 border-t border-ink/10 pt-4">
                   <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand text-xs font-semibold text-brand-foreground">
                     {name.charAt(0)}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-white">{name}</p>
-                    <p className="text-xs text-white/45">{detail}</p>
+                    <p className="text-sm font-semibold text-ink">{name}</p>
+                    <p className="text-xs text-ink/45">{detail}</p>
                   </div>
                 </div>
               </motion.div>

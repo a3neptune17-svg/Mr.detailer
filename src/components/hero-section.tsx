@@ -1,8 +1,8 @@
 "use client"
 
-import { useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { ArrowDown, ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Pause, Play } from "lucide-react"
 import {
   motion,
   useMotionTemplate,
@@ -10,6 +10,7 @@ import {
   useScroll,
   useSpring,
   useTransform,
+  type MotionValue,
 } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
@@ -44,14 +45,102 @@ function Magnetic({ children }: { children: React.ReactNode }) {
   )
 }
 
-const STATS = [
-  { value: "12", label: "Yrs" },
-  { value: "4,800+", label: "Cars" },
-  { value: "5.0", label: "Rating" },
+// Placeholder: all five slots point at the same clip until the real cuts land —
+// swap each `src` for its own file and the rotation/controls need no other changes.
+const HERO_VIDEOS = [
+  { src: "/videos/hero.mp4", label: "Graphene Coating", tag: "3-yr gloss protection" },
+  { src: "/videos/hero.mp4", label: "Paint Protection Film", tag: "Self-healing film" },
+  { src: "/videos/hero.mp4", label: "Ceramic Coating", tag: "High-gloss finish" },
+  { src: "/videos/hero.mp4", label: "Paint Correction", tag: "Swirl-free paint" },
+  { src: "/videos/hero.mp4", label: "Interior Detailing", tag: "Deep-clean cabin" },
 ]
+
+const ROTATE_MS = 7000
+
+function HeroVideoStage({
+  activeIndex,
+  playing,
+  scale,
+}: {
+  activeIndex: number
+  playing: boolean
+  scale: MotionValue<number>
+}) {
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
+
+  useEffect(() => {
+    const el = videoRefs.current[activeIndex]
+    if (el) el.currentTime = 0
+  }, [activeIndex])
+
+  useEffect(() => {
+    videoRefs.current.forEach((el, i) => {
+      if (!el) return
+      if (i === activeIndex && playing) {
+        void el.play().catch(() => {})
+      } else {
+        el.pause()
+      }
+    })
+  }, [activeIndex, playing])
+
+  return (
+    <div className="absolute inset-0">
+      {HERO_VIDEOS.map((video, i) => (
+        <motion.video
+          key={i}
+          ref={(el) => {
+            videoRefs.current[i] = el
+          }}
+          muted
+          loop
+          playsInline
+          autoPlay={i === 0}
+          style={{ scale }}
+          initial={false}
+          animate={{ opacity: i === activeIndex ? 1 : 0 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src={video.src} type="video/mp4" />
+        </motion.video>
+      ))}
+    </div>
+  )
+}
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [playing, setPlaying] = useState(true)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const startTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % HERO_VIDEOS.length)
+    }, ROTATE_MS)
+  }, [])
+
+  useEffect(() => {
+    if (!playing) {
+      if (timerRef.current) clearInterval(timerRef.current)
+      return
+    }
+    startTimer()
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [playing, startTimer])
+
+  function selectVideo(index: number) {
+    setActiveIndex(index)
+    if (playing) startTimer()
+  }
+
+  function togglePlaying() {
+    setPlaying((p) => !p)
+  }
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -79,19 +168,7 @@ export function HeroSection() {
       onMouseMove={handleMouseMove}
       className="relative flex min-h-screen w-full flex-col overflow-hidden bg-ink text-white"
     >
-      <motion.video
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={{ scale: videoScale }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.4, ease: "easeOut" }}
-        className="absolute inset-0 h-full w-full object-cover"
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </motion.video>
+      <HeroVideoStage activeIndex={activeIndex} playing={playing} scale={videoScale} />
 
       <div
         aria-hidden
@@ -104,40 +181,10 @@ export function HeroSection() {
       <div aria-hidden className="bg-grain pointer-events-none absolute inset-0" />
       <motion.div aria-hidden className="pointer-events-none absolute inset-0 z-[5]" style={{ background: spotlight }} />
 
-      {/* Top bar */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-        className="relative z-10 flex items-center justify-between border-b border-white/10 py-6 pl-20 pr-6 md:pl-10 md:pr-10 lg:pl-24 lg:pr-24"
-      >
-        <div className="flex items-center gap-2.5">
-          <span
-            aria-hidden
-            className="size-2 shrink-0 bg-brand"
-            style={{ clipPath: "polygon(25% 0, 100% 0, 75% 100%, 0 100%)" }}
-          />
-          <span className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-white">
-            Mr. Detailer
-          </span>
-        </div>
-        <span className="hidden font-mono text-[0.65rem] uppercase tracking-[0.25em] text-white/40 sm:inline">
-          Studio No. 013 — Est. 2013
-        </span>
-        <Magnetic>
-          <Link
-            href="#contact"
-            className="rounded-full border border-white/25 px-4 py-2 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-200 hover:border-brand hover:text-brand"
-          >
-            Enquire
-          </Link>
-        </Magnetic>
-      </motion.div>
-
       {/* Content — anchored to the bottom, editorial rather than poster */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-10 flex flex-1 flex-col justify-end gap-7 px-6 pb-14 sm:px-10 lg:px-24 lg:pb-16"
+        className="relative z-10 flex flex-1 flex-col justify-end gap-7 px-6 pb-14 pt-24 sm:px-10 lg:px-24 lg:pb-16"
       >
         <motion.div
           initial={{ opacity: 0, y: 14 }}
@@ -208,32 +255,105 @@ export function HeroSection() {
         </motion.div>
       </motion.div>
 
-      {/* Bottom bar — scroll cue + quiet stat strip */}
+      {/* Reel selector — track with a sliding progress head + play/pause */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
-        className="relative z-10 flex items-center justify-between border-t border-white/10 px-6 py-5 sm:px-10 lg:px-24"
+        className="relative z-10 flex items-center gap-4 border-t border-white/10 bg-ink/40 px-4 py-4 backdrop-blur-md sm:gap-6 sm:px-8 sm:py-5 lg:px-16"
       >
-        <div className="flex items-center gap-2 font-mono text-[0.6rem] uppercase tracking-[0.3em] text-white/45">
+        <button
+          type="button"
+          onClick={togglePlaying}
+          aria-label={playing ? "Pause reel" : "Play reel"}
+          className="flex size-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-ink text-white transition-colors duration-200 hover:border-brand/60 hover:text-brand sm:size-12"
+        >
+          {playing ? <Pause className="size-4" /> : <Play className="size-4" />}
+        </button>
+
+        <div className="relative flex-1">
+          <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] bg-white/10" />
           <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            aria-hidden
+            animate={{ x: `${activeIndex * 100}%` }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="absolute left-0 top-0 z-10 h-[3px]"
+            style={{ width: `${100 / HERO_VIDEOS.length}%` }}
           >
-            <ArrowDown className="size-3 text-brand" />
+            <motion.span
+              key={`${activeIndex}-${playing}`}
+              initial={{ width: playing ? "0%" : "100%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: ROTATE_MS / 1000, ease: "linear" }}
+              className="block h-full bg-brand"
+            />
           </motion.div>
-          Scroll
-        </div>
-        <div className="flex items-center gap-5 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-white/60 sm:gap-8">
-          {STATS.map((stat, i) => (
-            <span key={stat.label} className="flex items-center gap-5 sm:gap-8">
-              {i > 0 && <span aria-hidden className="hidden h-3 w-px bg-white/15 sm:block" />}
-              <span>
-                <span className="font-semibold text-white">{stat.value}</span>{" "}
-                <span className="text-white/40">{stat.label}</span>
+
+          {/* Desktop / tablet — full detail columns */}
+          <div className="hidden sm:flex">
+            {HERO_VIDEOS.map((video, i) => {
+              const active = i === activeIndex
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => selectVideo(i)}
+                  aria-label={`Show ${video.label} reel`}
+                  aria-current={active}
+                  className={`flex-1 border-l border-white/10 px-5 py-4 text-left transition-colors duration-300 first:border-l-0 ${
+                    active ? "bg-white/[0.06]" : "hover:bg-white/[0.03]"
+                  }`}
+                >
+                  <span
+                    className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold tracking-tight transition-colors duration-300 ${
+                      active ? "bg-brand text-ink" : "bg-white/10 text-white/50"
+                    }`}
+                  >
+                    0{i + 1}
+                  </span>
+                  <span
+                    className={`mt-2 block truncate text-sm font-bold uppercase tracking-tight transition-colors duration-300 sm:text-base ${
+                      active ? "text-white" : "text-white/55"
+                    }`}
+                  >
+                    {video.label}
+                  </span>
+                  <span className="mt-0.5 block truncate text-xs text-white/35">
+                    {video.tag}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Mobile — current reel summary + tap-to-jump dots */}
+          <div className="flex items-center justify-between gap-3 py-3.5 pl-3 sm:hidden">
+            <div className="min-w-0">
+              <span className="inline-flex items-center rounded-md bg-brand px-2 py-0.5 text-xs font-bold tracking-tight text-ink">
+                0{activeIndex + 1}
               </span>
-            </span>
-          ))}
+              <p className="mt-1.5 truncate text-sm font-bold uppercase tracking-tight text-white">
+                {HERO_VIDEOS[activeIndex].label}
+              </p>
+              <p className="truncate text-xs text-white/35">
+                {HERO_VIDEOS[activeIndex].tag}
+              </p>
+            </div>
+            <div className="flex shrink-0 items-center gap-1.5">
+              {HERO_VIDEOS.map((video, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => selectVideo(i)}
+                  aria-label={`Show ${video.label} reel`}
+                  aria-current={i === activeIndex}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === activeIndex ? "w-5 bg-brand" : "w-2 bg-white/25"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </motion.div>
     </section>

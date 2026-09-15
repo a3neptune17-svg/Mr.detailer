@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Award, Check } from "lucide-react"
+import { ArrowUpRight, Award, Check } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { SectionHeading } from "@/components/section-heading"
@@ -10,12 +10,14 @@ import { Button } from "@/components/ui/button"
 const PLANS = [
   {
     name: "Essential",
+    slug: "essential",
     price: "$89",
     desc: "Hand wash, vacuum, and interior wipe-down.",
     features: ["Hand wash & dry", "Full vacuum", "Interior wipe-down"],
   },
   {
     name: "Signature",
+    slug: "signature",
     price: "$219",
     featured: true,
     desc: "Paint decontamination, wax, full interior detail.",
@@ -27,6 +29,7 @@ const PLANS = [
   },
   {
     name: "Ceramic",
+    slug: "ceramic",
     price: "$549",
     desc: "Paint correction with multi-year ceramic coating.",
     features: [
@@ -50,7 +53,6 @@ const fadeUp = {
 export function PricingSection() {
   return (
     <section id="pricing" className="relative overflow-hidden bg-secondary py-24">
-      <div aria-hidden className="rumble-strip absolute inset-x-0 top-0 h-1.5" />
       <div
         aria-hidden
         className="pointer-events-none absolute -right-16 top-10 size-80 rounded-full bg-brand/10 blur-3xl"
@@ -90,7 +92,13 @@ export function PricingSection() {
                   Most popular
                 </span>
               )}
-              <h3 className="font-heading text-lg font-semibold text-white">{plan.name}</h3>
+              <Link
+                href={`/packages/${plan.slug}`}
+                className="group/title flex items-center gap-1.5 font-heading text-lg font-semibold text-white transition-colors duration-200 hover:text-brand"
+              >
+                {plan.name}
+                <ArrowUpRight className="size-3.5 opacity-0 transition-opacity duration-200 group-hover/title:opacity-100" />
+              </Link>
               <p
                 className={
                   plan.featured

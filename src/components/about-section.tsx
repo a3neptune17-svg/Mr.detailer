@@ -33,7 +33,6 @@ const ABOUT_FEATURES = [
 export function AboutSection() {
   return (
     <section id="about" className="relative overflow-hidden bg-secondary py-24">
-      <div aria-hidden className="rumble-strip absolute inset-x-0 top-0 h-1.5" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"

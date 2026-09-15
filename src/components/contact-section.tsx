@@ -14,12 +14,10 @@ const CONTACT_DETAILS = [
 
 export function ContactSection() {
   return (
-    <section id="contact" className="relative overflow-hidden bg-ink py-24 text-white">
-      <div aria-hidden className="rumble-strip absolute inset-x-0 top-0 h-1.5" />
-      <div aria-hidden className="bg-grain pointer-events-none absolute inset-0" />
+    <section id="contact" className="relative overflow-hidden bg-white py-24 text-ink">
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 size-96 -translate-x-1/2 rounded-full bg-brand/10 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-0 size-96 -translate-x-1/2 rounded-full bg-brand/25 blur-3xl"
       />
 
       <motion.div
@@ -34,30 +32,31 @@ export function ContactSection() {
         </span>
         <SectionHeading
           eyebrow="Book Now"
+          tone="light"
           title="Ready for a car that turns heads?"
           align="center"
           className="mt-5"
         />
-        <p className="mt-3 max-w-md text-white/60">
+        <p className="mt-3 max-w-md text-ink/60">
           Slots open daily. Book online or call the studio to reserve your
           detailing appointment.
         </p>
         <Button
           asChild
           size="lg"
-          className="mt-8 rounded-md bg-brand px-6 text-sm font-semibold uppercase tracking-wide text-brand-foreground hover:bg-white"
+          className="mt-8 rounded-md bg-brand px-6 text-sm font-semibold uppercase tracking-wide text-brand-foreground hover:bg-ink hover:text-white"
         >
           <Link href="mailto:hello@mrdetailer.studio">Get in Touch</Link>
         </Button>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 border-t border-white/10 pt-8">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 border-t border-ink/10 pt-8">
           {CONTACT_DETAILS.map(({ icon: Icon, label, href }) => (
             <Link
               key={label}
               href={href}
-              className="flex items-center gap-2 text-sm text-white/60 transition-colors duration-200 hover:text-brand"
+              className="flex items-center gap-2 text-sm text-ink/60 transition-colors duration-200 hover:text-ink"
             >
-              <Icon className="size-4 text-brand" />
+              <Icon className="size-4 text-ink/50" />
               {label}
             </Link>
           ))}

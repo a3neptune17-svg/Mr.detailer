@@ -9,6 +9,7 @@ import { PricingSection } from "@/components/pricing-section"
 import { ProcessSteps } from "@/components/process-steps"
 import { SectionHeading } from "@/components/section-heading"
 import { ServicesSection } from "@/components/services-section"
+import { ShopSection } from "@/components/shop-section"
 
 export default function Home() {
   return (
@@ -29,7 +30,6 @@ export default function Home() {
 
       {/* Process */}
       <section id="process" className="relative overflow-hidden bg-secondary py-24">
-        <div aria-hidden className="rumble-strip absolute inset-x-0 top-0 h-1.5" />
         <span
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-8 z-0 -translate-x-1/2 select-none whitespace-nowrap text-[16vw] font-heading font-bold italic tracking-tighter text-white/[0.03] sm:text-[10vw]"
@@ -58,6 +58,9 @@ export default function Home() {
 
       {/* Contact */}
       <ContactSection />
+
+      {/* Shop */}
+      <ShopSection />
 
       <Footer />
     </div>

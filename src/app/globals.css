@@ -166,17 +166,6 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Racing curb / rumble-strip divider — motorsport signature detail used between sections */
-.rumble-strip {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    var(--brand) 0,
-    var(--brand) 10px,
-    transparent 10px,
-    transparent 20px
-  );
-}
-
 /* Hollow outlined numerals, like a car number-plate roundel */
 .text-outline {
   color: transparent;
@@ -187,6 +176,12 @@
 .text-outline-heavy {
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.9);
+}
+
+/* Same hollow numeral treatment, tuned for white-background sections */
+.text-outline-light {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(26, 26, 24, 0.16);
 }
 
 /* Checkered-flag swatch */
